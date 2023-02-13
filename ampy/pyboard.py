@@ -201,10 +201,14 @@ class Pyboard:
                 time.sleep(0.2)
 
         self.serial.write(b'\x04') # ctrl-D: soft reset
-        data = self.read_until(1, b'soft reboot\r\n')
-        if not data.endswith(b'soft reboot\r\n'):
-            print(data)
-            raise PyboardError('could not enter raw repl')
+        """
+        Not exactly sure why, but this control information is no longer
+        present in the serial comm for version 8.0.0 of CircuitPython.
+        """
+        # data = self.read_until(1, b'soft reboot\r\n')
+        # if not data.endswith(b'soft reboot\r\n'):
+        #     print(data)
+        #     raise PyboardError('could not enter raw repl')
         # By splitting this into 2 reads, it allows boot.py to print stuff,
         # which will show up after the soft reboot and before the raw REPL.
         # Modification from original pyboard.py below:
